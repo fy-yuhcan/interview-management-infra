@@ -103,3 +103,9 @@ variable "VPC_ID" {
   type        = string
   sensitive   = true
 }
+
+variable "AWS_REGION" {
+  description = "AWS リージョン"
+  type        = string
+  sensitive   = true
+}

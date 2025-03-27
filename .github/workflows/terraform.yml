@@ -36,6 +36,7 @@ jobs:
       - name: Terraform Plan
         run: |
           terraform plan -out=tfplan -input=false \
+            -var="AWS_REGION=${{ secrets.AWS_REGION }}" \
             -var="ALB_SECURITY_GROUPS=${{ secrets.ALB_SECURITY_GROUPS }}" \
             -var="ALB_SUBNET_C=${{ secrets.ALB_SUBNET_C }}" \
             -var="ALB_SUBNETS_A=${{ secrets.ALB_SUBNETS_A }}" \
