@@ -8,7 +8,7 @@ resource "aws_codedeploy_deployment_group" "app_group" {
   app_name              = aws_codedeploy_app.app.name
   deployment_group_name = "aws-code-deploy-group"
   #codedeployが使うロール
-  service_role_arn      = var.CODEDEPLOY_SERVICE_ROLE_ARN
+  service_role_arn      = var.CODE_DEPLOY_SERVICE_ROLE_ARN
   #一台ずつデプロイ
   deployment_config_name = "CodeDeployDefault.OneAtATime"
 
