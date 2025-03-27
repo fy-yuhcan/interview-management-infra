@@ -1,0 +1,48 @@
+name: Deploy Infrastructure
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: "1.5.5"
+
+      - name: Terraform Init
+        run: |
+          terraform init -input=false -backend-config="bucket=${{ secrets.TF_BUCKET }}" -backend-config="key=terraform.tfstate" -backend-config="region=${{ secrets.AWS_REGION }}"
+
+      - name: Terraform Plan
+        run: |
+          terraform plan -out=tfplan -input=false \
+            -var="ALB_SECURITY_GROUPS=${{ secrets.ALB_SECURITY_GROUPS }}" \
+            -var="ALB_SUBNET_C=${{ secrets.ALB_SUBNET_C }}" \
+            -var="ALB_SUBNETS_A=${{ secrets.ALB_SUBNETS_A }}" \
+            -var="CERTIFICATE_ARN=${{ secrets.CERTIFICATE_ARN }}" \
+            -var="CODE_DEPLOY_SERVICE_ROLE_ARN=${{ secrets.CODE_DEPLOY_SERVICE_ROLE_ARN }}" \
+            -var="EC2_AMI=${{ secrets.EC2_AMI }}" \
+            -var="EC2_SECURITY_GROUP_ID=${{ secrets.EC2_SECURITY_GROUP_ID }}" \
+            -var="EC2_SUBNET_ID=${{ secrets.EC2_SUBNET_ID }}" \
+            -var="LOAD_BALANCER_ARN=${{ secrets.LOAD_BALANCER_ARN }}" \
+            -var="RDB_IDENTIFIER=${{ secrets.RDB_IDENTIFIER }}" \
+            -var="RDB_PASSWORD=${{ secrets.RDB_PASSWORD }}" \
+            -var="RDB_SECURITY_GROUP_ID=${{ secrets.RDB_SECURITY_GROUP_ID }}" \
+            -var="RDB_SECURITY_GROUP_ID_2=${{ secrets.RDB_SECURITY_GROUP_ID_2 }}" \
+            -var="RDB_SUBNET_NAME=${{ secrets.RDB_SUBNET_NAME }}" \
+            -var="RDB_USER_NAME=${{ secrets.RDB_USER_NAME }}" \
+            -var="TARGET_GROUP_ARN=${{ secrets.TARGET_GROUP_ARN }}" \
+            -var="VPC_ID=${{ secrets.VPC_ID }}"
+
+      - name: Terraform Apply
+        run: terraform apply -input=false tfplan
