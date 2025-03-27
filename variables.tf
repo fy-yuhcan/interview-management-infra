@@ -103,15 +103,3 @@ variable "VPC_ID" {
   type        = string
   sensitive   = true
 }
-
-variable "TF_BUCKET" {
-  description = "Terraform のバックエンド用 S3 バケット名"
-  type        = string
-  sensitive   = true
-}
-
-variable "AWS_REGION" {
-  description = "AWS リージョン"
-  type        = string
-  sensitive   = true
-}
