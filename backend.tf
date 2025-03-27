@@ -1,10 +1,10 @@
 terraform {
   backend "s3" {
     #terraform用のバケット作成
-    bucket  = var.TF_BUCKET
+    bucket  = "my-interview-management-terraform" 
     #stateファイル
     key     = "terraform.tfstate" 
-    region  = var.AWS_REGION
+    region  = "ap-northeast-1"
     #暗号化
     encrypt = true
   }
