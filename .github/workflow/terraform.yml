@@ -8,7 +8,7 @@ on:
 jobs:
   terraform:
     runs-on: ubuntu-latest
-    environment: production
+    environment: terraform-secrets_key
 
     steps:
       - name: Checkout repository
