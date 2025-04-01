@@ -1,6 +1,6 @@
 #既存のvpcを使用する
 data "aws_vpc" "existing_vpc" {
-    id = var.VPC_NAME
+    id = var.VPC_ID
 }
 
 #既存のセキュリティグループを使用する
