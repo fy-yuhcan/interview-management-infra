@@ -26,7 +26,7 @@ resource "aws_security_group" "rds_sg" {
 
 resource "aws_db_subnet_group" "my_db_subnet_group" {
   name       = "my-db-subnet-group"
-  subnet_ids = [aws_subnet.private_a.id, aws_subnet.private_b.id]
+  subnet_ids = [data.aws_subnet.private_a.id, data.aws_subnet.private_b.id]
 
   tags = {
     Name = "My DB Subnet Group"
@@ -35,7 +35,7 @@ resource "aws_db_subnet_group" "my_db_subnet_group" {
 
 # RDSインスタンス設定
 resource "aws_db_instance" "app_db" {
-  identifier              = var.RDB_IDENTIFIER
+  identifier              = "interview-management-terraform"
   allocated_storage       = 20
   storage_type            = "gp2"
   engine                  = "mysql"
