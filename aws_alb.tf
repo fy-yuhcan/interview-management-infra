@@ -60,7 +60,7 @@ resource "aws_lb" "app_alb" {
   name               = "interview-management"
   internal           = false #外部からのアクセス許可
   load_balancer_type = "application" #alb
-  subnets            = [data.aws_subnet.alb_subnet_a,data.aws_subnet.alb_subnet_c] #albを配置するサブネット
+  subnets            = [data.aws_subnet.alb_subnet_a.id,data.aws_subnet.alb_subnet_c.id] #albを配置するサブネット
 
   security_groups = [aws_security_group.alb_sg.id] #albのセキュリティグループ
 }
