@@ -9,7 +9,7 @@ resource "aws_lb_target_group_attachment" "app_attachment" {
 resource "aws_instance" "app_server" {
   ami                         = var.EC2_AMI
   instance_type               = "t2.micro"
-  subnet_id                   = aws_subnet.alb_subnet_a.id
+  subnet_id                   = data.aws_subnet.alb_subnet_a.id
   #セキュリティグループ
   vpc_security_group_ids          = [aws_security_group.alb_sg.id]
   #codedeployアクセス用のIAMロール
