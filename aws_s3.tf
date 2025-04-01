@@ -1,5 +1,5 @@
 provider "aws" {
-  region = var.AWS_REGION
+  region = "ap-northeast-1"
 }
 
 # バケットの作成

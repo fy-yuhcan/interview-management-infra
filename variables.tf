@@ -33,13 +33,6 @@ variable "EC2_AMI" {
   sensitive   = true
 }
 
-
-variable "RDB_IDENTIFIER" {
-  description = "RDS のインスタンス識別子"
-  type        = string
-  sensitive   = true
-}
-
 variable "RDB_PASSWORD" {
   description = "RDS のマスター・ユーザーのパスワード"
   type        = string
@@ -55,12 +48,6 @@ variable "RDB_USER_NAME" {
 
 variable "VPC_ID" {
   description = "VPC のID"
-  type        = string
-  sensitive   = true
-}
-
-variable "AWS_REGION" {
-  description = "AWS リージョン"
   type        = string
   sensitive   = true
 }
