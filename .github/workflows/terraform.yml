@@ -48,7 +48,9 @@ jobs:
             -var="EC2_AMI=${{ secrets.EC2_AMI }}" \
             -var="RDB_PASSWORD=${{ secrets.RDB_PASSWORD }}" \
             -var="RDB_USER_NAME=${{ secrets.RDB_USER_NAME }}" \
-            -var="VPC_ID=${{ secrets.VPC_ID }}"
+            -var="VPC_ID=${{ secrets.VPC_ID }}" \
+            --var="RDB_PVT_SUBNET_1=${{ secrets.RDB_PVT_SUBNET_1 }}" \
+            --var="RDB_PVT_SUBNET_2=${{ secrets.RDB_PVT_SUBNET_2 }}" \
 
       # Terraform の適用
       - name: Terraform Apply
