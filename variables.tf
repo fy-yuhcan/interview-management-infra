@@ -109,3 +109,15 @@ variable "AWS_REGION" {
   type        = string
   sensitive   = true
 }
+
+variable "RDB_PVT_SUBNET_1"{
+  description = "RDS サブネットグループ名"
+  type        = string
+  sensitive   = true
+}
+
+variable "RDB_PVT_SUBNET_2"{
+  description = "RDS サブネットグループ名"
+  type        = string
+  sensitive   = true
+}

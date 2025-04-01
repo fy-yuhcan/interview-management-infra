@@ -12,6 +12,13 @@ data "aws_subnet" "alb_subnet_c" {
   id = var.ALB_SUBNET_C
 }
 
+data "aws_subnet" "private_a" {
+  id = var.RDB_PVT_SUBNET_1
+}
+
+data "aws_subnet" "private_b" {
+  id = var.RDB_PVT_SUBNET_2
+}
 
 resource "aws_security_group" "alb_sg" {
   name        = "alb-sg"

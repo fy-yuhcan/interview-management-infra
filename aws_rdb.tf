@@ -24,6 +24,15 @@ resource "aws_security_group" "rds_sg" {
   }
 }
 
+resource "aws_db_subnet_group" "my_db_subnet_group" {
+  name       = "my-db-subnet-group"
+  subnet_ids = [aws_subnet.private_a.id, aws_subnet.private_b.id]
+
+  tags = {
+    Name = "My DB Subnet Group"
+  }
+}
+
 # RDSインスタンス設定
 resource "aws_db_instance" "app_db" {
   identifier              = var.RDB_IDENTIFIER
@@ -42,7 +51,7 @@ resource "aws_db_instance" "app_db" {
     aws_security_group.rds_sg.id
   ]
 
-  db_subnet_group_name   = a
+  db_subnet_group_name   = aws_db_subnet_group.my_db_subnet_group.name
 
   publicly_accessible    = false
 }
