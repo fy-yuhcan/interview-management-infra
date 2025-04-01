@@ -5,6 +5,50 @@ resource "aws_lb_target_group_attachment" "app_attachment" {
   port             = 80
 }
 
+#ec2インスタンスのセキュリティグループ
+resource "aws_security_group" "ec2_sg" {
+  name        = "ec2-sg"
+  description = "Security group for EC2 instances"
+  vpc_id      = data.aws_vpc.existing_vpc.id
+
+  ingress {
+    description = "Allow HTTP from ALB"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    security_groups = [aws_security_group.alb_sg.id]
+  }
+
+  ingress {
+    description = "Allow HTTPS from ALB (if needed)"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    security_groups = [aws_security_group.alb_sg.id]
+  }
+
+  ingress {
+    description = "Allow SSH from trusted IP"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["114.48.134.137/32"]
+  }
+
+  egress {
+    description = "Allow all outbound traffic"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "ec2-sg"
+  }
+}
+
+
 #ec2インスタンスを作成
 resource "aws_instance" "app_server" {
   ami                         = var.EC2_AMI
