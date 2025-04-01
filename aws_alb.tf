@@ -3,14 +3,59 @@ data "aws_vpc" "existing_vpc" {
     id = var.VPC_NAME
 }
 
+#既存のセキュリティグループを使用する
+data "aws_subnet" "alb_subnet_a" {
+  id = var.ALB_SUBNETS_A
+}
+
+data "aws_subnet" "alb_subnet_c" {
+  id = var.ALB_SUBNET_C
+}
+
+
+resource "aws_security_group" "alb_sg" {
+  name        = "alb-sg"
+  description = "Security group for ALB"
+  vpc_id      = data.aws_vpc.existing_vpc.id
+
+  ingress {
+    description = "Allow HTTP traffic"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "Allow HTTPS traffic"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    description = "Allow all outbound traffic"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "alb-sg"
+  }
+}
+
+
 #ロードバランサーの作成
 resource "aws_lb" "app_alb" {
   name               = "interview-management"
   internal           = false #外部からのアクセス許可
   load_balancer_type = "application" #alb
-  subnets            = [var.ALB_SUBNETS_A, var.ALB_SUBNET_C] #albを配置するサブネット
+  subnets            = [aws_subnet.alb_subnet_a,aws_subnet.alb_subnet_c] #albを配置するサブネット
 
-  security_groups = [var.ALB_SECURITY_GROUPS] #albのセキュリティグループ
+  security_groups = [aws_security_group.alb_sg.id] #albのセキュリティグループ
 }
 
 #ターゲットグループの設定
