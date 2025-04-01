@@ -1,3 +1,8 @@
+#既存のvpcを使用する
+data "aws_vpc" "existing_vpc" {
+    id = var.VPC_NAME
+}
+
 #ロードバランサーの作成
 resource "aws_lb" "app_alb" {
   name               = "interview-management"
@@ -13,7 +18,7 @@ resource "aws_lb_target_group" "app_tg" {
   name     = "interview-management"
   port     = 80
   protocol = "HTTP"
-  vpc_id   = var.VPC_ID #ターゲットグループを配置するVPC
+  vpc_id   = aws_vpc.existing_vpc.id #ターゲットグループを配置するVPC
 
   health_check {
     path                = "/events" #ヘルスチェックのパス
@@ -28,7 +33,7 @@ resource "aws_lb_target_group" "app_tg" {
 #ターゲットグループのリスナー設定
 #HTTPアクセスをHTTPSにリダイレクト
 resource "aws_lb_listener" "http_listener" {
-  load_balancer_arn = var.LOAD_BALANCER_ARN
+  load_balancer_arn = aws_lb.app_alb.arn
   port              = 80
   protocol          = "HTTP"
 
@@ -46,7 +51,7 @@ resource "aws_lb_listener" "http_listener" {
 
 #HTTPSリスナー設定
 resource "aws_lb_listener" "https_listener" {
-  load_balancer_arn = var.LOAD_BALANCER_ARN
+  load_balancer_arn = aws_lb.app_alb.arn
   port              = 443
   protocol          = "HTTPS"
   
@@ -57,6 +62,6 @@ resource "aws_lb_listener" "https_listener" {
   #ターゲットグループの設定
   default_action {
     type             = "forward"
-    target_group_arn = var.TARGET_GROUP_ARN
+    target_group_arn = aws_lb_target_group.app_tg.arn
   }
 }
