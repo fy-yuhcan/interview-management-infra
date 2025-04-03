@@ -34,13 +34,12 @@ jobs:
           terraform init -input=false \
             -backend-config="bucket=${{ secrets.TF_BUCKET }}" \
             -backend-config="key=terraform.tfstate" \
-            -backend-config="region=${{ secrets.AWS_REGION }}"
+            -backend-config="region=ap-northeast-1"
 
       # Terraform の実行
       - name: Terraform Plan
         run: |
           terraform plan -out=tfplan -input=false \
-            -var="AWS_REGION=${{ secrets.AWS_REGION }}" \
             -var="ALB_SUBNET_C=${{ secrets.ALB_SUBNET_C }}" \
             -var="ALB_SUBNETS_A=${{ secrets.ALB_SUBNETS_A }}" \
             -var="CERTIFICATE_ARN=${{ secrets.CERTIFICATE_ARN }}" \
