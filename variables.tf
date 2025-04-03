@@ -2,11 +2,6 @@ variable "instance_type" {
   default = "t2.micro"
 }
 
-variable "ALB_SECURITY_GROUPS" {
-  description = "ALB にアタッチするセキュリティグループ"
-  type        = string
-  sensitive   = true
-}
 
 variable "ALB_SUBNET_C" {
   description = "ALB を配置するサブネットID (AZ C)"
@@ -38,50 +33,8 @@ variable "EC2_AMI" {
   sensitive   = true
 }
 
-variable "EC2_SECURITY_GROUP_ID" {
-  description = "EC2 インスタンスにアタッチするセキュリティグループID"
-  type        = string
-  sensitive   = true
-}
-
-variable "EC2_SUBNET_ID" {
-  description = "EC2 インスタンスを起動するサブネットID"
-  type        = string
-  sensitive   = true
-}
-
-variable "LOAD_BALANCER_ARN" {
-  description = "ALB の ARN"
-  type        = string
-  sensitive   = true
-}
-
-variable "RDB_IDENTIFIER" {
-  description = "RDS のインスタンス識別子"
-  type        = string
-  sensitive   = true
-}
-
 variable "RDB_PASSWORD" {
   description = "RDS のマスター・ユーザーのパスワード"
-  type        = string
-  sensitive   = true
-}
-
-variable "RDB_SECURITY_GROUP_ID" {
-  description = "RDS にアタッチするセキュリティグループID"
-  type        = string
-  sensitive   = true
-}
-
-variable "RDB_SECURITY_GROUP_ID_2" {
-  description = "RDS にアタッチするセキュリティグループID 2"
-  type        = string
-  sensitive   = true
-}
-
-variable "RDB_SUBNET_NAME" {
-  description = "RDS サブネットグループ名"
   type        = string
   sensitive   = true
 }
@@ -92,11 +45,6 @@ variable "RDB_USER_NAME" {
   sensitive   = true
 }
 
-variable "TARGET_GROUP_ARN" {
-  description = "ALB のターゲットグループ ARN"
-  type        = string
-  sensitive   = true
-}
 
 variable "VPC_ID" {
   description = "VPC のID"
@@ -104,8 +52,14 @@ variable "VPC_ID" {
   sensitive   = true
 }
 
-variable "AWS_REGION" {
-  description = "AWS リージョン"
+variable "RDB_PVT_SUBNET_1"{
+  description = "RDS サブネットグループ名"
+  type        = string
+  sensitive   = true
+}
+
+variable "RDB_PVT_SUBNET_2"{
+  description = "RDS サブネットグループ名"
   type        = string
   sensitive   = true
 }
