@@ -34,7 +34,7 @@ jobs:
           terraform init -input=false \
             -backend-config="bucket=${{ secrets.TF_BUCKET }}" \
             -backend-config="key=terraform.tfstate" \
-            -backend-config="region=${{ secrets.AWS_REGION }}"
+            -backend-config="region=ap-northeast-1"
 
       # Terraform の実行
       - name: Terraform Plan
