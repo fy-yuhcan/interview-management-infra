@@ -56,6 +56,8 @@ resource "aws_instance" "app_server" {
   subnet_id                   = data.aws_subnet.alb_subnet_a.id
   #セキュリティグループ
   vpc_security_group_ids          = [aws_security_group.ec2_sg.id]
+  #keyペア
+  key_name                   = "interview-management"
   #codedeployアクセス用のIAMロール
   iam_instance_profile        = "codedeploy"
   associate_public_ip_address = true
