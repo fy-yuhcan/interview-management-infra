@@ -55,7 +55,7 @@ resource "aws_instance" "app_server" {
   instance_type               = "t2.micro"
   subnet_id                   = data.aws_subnet.alb_subnet_a.id
   #セキュリティグループ
-  vpc_security_group_ids          = [aws_security_group.alb_sg.id]
+  vpc_security_group_ids          = [aws_security_group.ec2_sg.id]
   #codedeployアクセス用のIAMロール
   iam_instance_profile        = "codedeploy"
   associate_public_ip_address = true
