@@ -117,3 +117,6 @@ resource "aws_lb_listener" "https_listener" {
     target_group_arn = aws_lb_target_group.app_tg.arn
   }
 }
+
+//データベースからの取得する部分を修正
+
